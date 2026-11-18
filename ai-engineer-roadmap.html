@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI/ML Engineer Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a single reading column of 13 sequential phases; a sticky progress bar summarises hours done vs. remaining. */
+:root{
+  --bg:#f5f7fb; --surface:#ffffff; --fg:#141a26; --muted:#5b6578; --line:#dde3ee;
+  --accent:#1f5eff; --accent-soft:#e6edff; --done:#14865a; --done-soft:#e3f5ec; --opt:#8a6d1d; --opt-soft:#fbf3dc;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e121a; --surface:#161b26; --fg:#e7ebf3; --muted:#9aa4b7; --line:#283043;
+  --accent:#7aa0ff; --accent-soft:#1c2744; --done:#4cc994; --done-soft:#143327; --opt:#e3c46e; --opt-soft:#33290f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e121a; --surface:#161b26; --fg:#e7ebf3; --muted:#9aa4b7; --line:#283043;
+  --accent:#7aa0ff; --accent-soft:#1c2744; --done:#4cc994; --done-soft:#143327; --opt:#e3c46e; --opt-soft:#33290f; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+h1{font-size:clamp(28px,5vw,40px);letter-spacing:-.02em}
+.lede{color:var(--muted);max-width:65ch;margin:8px 0 0}
+.flow{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:16px;line-height:1.9}
+.flow b{color:var(--fg);font-weight:600}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:24px 0 20px;display:grid;gap:10px}
+.bar-row{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;justify-content:space-between}
+.stats{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted)}
+.stats b{font-family:var(--mono);color:var(--fg);font-variant-numeric:tabular-nums}
+.track{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.fill{height:100%;background:var(--done);width:0;transition:width .3s}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px}
+.controls label{display:flex;gap:6px;align-items:center;cursor:pointer;color:var(--muted)}
+select,button{font:inherit;font-size:13px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.phases{display:grid;gap:14px}
+details.phase{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+summary{list-style:none;cursor:pointer;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;gap:4px 14px;align-items:center}
+summary::-webkit-details-marker{display:none}
+.num{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:4px 8px;font-variant-numeric:tabular-nums}
+.phase.complete .num{color:var(--done);background:var(--done-soft)}
+.ph-title{min-width:0}
+.ph-title h2{font-size:18px}
+.ph-title p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.ph-meta{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mini{grid-column:1/-1;height:4px;background:var(--line);border-radius:99px;overflow:hidden}
+.mini i{display:block;height:100%;background:var(--done);width:0}
+.body{padding:0 16px 16px;display:grid;gap:12px}
+ol.vids{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+ol.vids li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
+ol.vids li.opt-row[data-hidden="1"]{display:none}
+ol.vids input{width:18px;height:18px;margin-top:2px;accent-color:var(--done);cursor:pointer}
+.v{min-width:0}
+.v a{color:var(--fg);text-decoration:none;font-weight:500}
+.v a:hover{color:var(--accent);text-decoration:underline}
+li.is-done>.v>a{color:var(--muted);text-decoration:line-through}
+.alts{margin-top:6px}
+.alts>summary{display:inline-block;padding:2px 0;font-size:12.5px;font-weight:500;color:var(--accent)}
+.alts>summary::before{content:"▸ "}
+.alts[open]>summary::before{content:"▾ "}
+.alts>ol{list-style:none;margin:6px 0 0;padding:0 0 0 12px;border-left:2px solid var(--line)}
+ol.vids .alts li{padding:6px 0;border-bottom:0}
+#phases[data-core="1"] .alts{display:none}
+.sub{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12.5px;color:var(--muted);margin-top:2px}
+.tag{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 6px;border-radius:4px}
+.tag.opt{color:var(--opt);background:var(--opt-soft)}
+.tag.alt{color:var(--muted);background:var(--line)}
+.tag.viz{color:var(--accent);background:var(--accent-soft)}
+.dur{font-family:var(--mono);font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;margin-top:2px}
+.why{font-size:13.5px;color:var(--muted);margin:0;max-width:70ch}
+.project{background:var(--bg);border:1px dashed var(--line);border-radius:8px;padding:10px 12px;font-size:13.5px}
+.project b{font-family:var(--display);color:var(--fg)}
+.foot{margin-top:28px;font-size:12.5px;color:var(--muted);max-width:70ch}
+@media (max-width:520px){summary{grid-template-columns:auto 1fr}.ph-meta{grid-column:2;text-align:left}}
+@media (prefers-reduced-motion:reduce){.fill{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>AI/ML Engineer Roadmap</h1>
+  <p class="lede">A hand-picked sequence of free YouTube videos: Python, SQL and FastAPI, the maths and classical ML behind it all, then building, fine-tuning, serving, tracking and wiring up LLMs as agents. Tick each video as you finish it. Optional videos are extra depth: skip them on a first pass. Where a video has alternatives (same topic, another teacher), they sit under it: open them if the main one doesn't click. Alternatives don't count toward your totals.</p>
+  <div class="flow"><b>Python + SQL</b> → <b>Async + FastAPI</b> → <b>Maths</b> → <b>Classical ML</b> → <b>Neural nets</b> → <b>LLM from scratch</b> → <b>DeepSeek internals</b> → <b>Using LLMs</b> → <b>Fine-tuning</b> → <b>Serving + MLOps</b> → <b>RAG</b> → <b>Agents + MCP</b> → <b>Evals</b></div>
+
+  <div class="bar" aria-live="polite">
+    <div class="bar-row">
+      <div class="stats">
+        <span><b id="s-done">0</b> / <b id="s-total">0</b> videos</span>
+        <span><b id="s-hdone">0h</b> of <b id="s-htotal">0h</b> watched</span>
+        <span>About <b id="s-weeks">0</b> weeks left</span>
+      </div>
+      <div class="controls">
+        <label for="pace">Pace
+          <select id="pace">
+            <option value="1">1 h/day</option>
+            <option value="2" selected>2 h/day</option>
+            <option value="3">3 h/day</option>
+            <option value="4">4 h/day</option>
+          </select>
+        </label>
+        <label for="core"><input type="checkbox" id="core"> Core only</label>
+      </div>
+    </div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+
+  <div class="phases" id="phases"></div>
+
+  <p class="foot">Video titles, lengths and channels were checked on YouTube on 17 Nov 2026; the SQL, maths, classical ML, MLOps, prompting and evals additions were checked on 18 Nov 2026 (a few lengths came from YouTube search results and may be a second off). Vizuara is preferred wherever it has a free English video on the same topic; other channels stay only where Vizuara has none, or only in Hindi or Julia, or noticeably thinner, and the note on each says why. The replaced videos are kept as Alternatives. Where a long course shows "X of Y", only the first X is core and counts toward the hours. "Building LLMs from scratch" on Vizuara is partly members-only, so phase 6 uses Sebastian Raschka's free chapter videos as the main track, and only the free Vizuara lectures appear as optional extras. The week estimate assumes 1.5× video length for coding along. Your ticks are saved in this browser only.</p>
+</div>
+
+<script>
+const V="Vizuara";
+const NN="PLPTV0NXA_ZSj6tNyn_UadmUeU3Q3oR-hu";
+const PHASES=[
+ {t:"Python + SQL foundations",g:"Classes, NumPy, Pandas, SQL, Git and Pydantic: what every later phase assumes.",
+  items:[
+   ["5cDTSKmnMUM","Basics of Python [beginners only]",V,"41:44",1,"Skip if you already write Python daily"],
+   ["qRIf4ZnlhKA","Introduction to classes in Python for beginners",V,"34:28"],
+   ["etSSzqDAZdk","Python Classes & Objects in the context of ML",V,"55:42"],
+   ["DhxKg3jmiis","Introduction to NumPy in Python",V,"1:08:09"],
+   ["fgd3riFFBVQ","Matrix multiplication from scratch in Python",V,"31:16"],
+   ["yBivEN7vdl4","Pandas in Python for ML and Data Science",V,"1:33:06",1],
+   ["OT1RErkfLNQ","SQL beginner to advanced: joins, GROUP BY, window functions, CTEs","Alex The Analyst","4:04:58",0,"Core is 0:00–2:09 (window functions at 1:45); the rest is temp tables, procs and projects","2:09:00"],
+   ["8ZuH0C1jcj8","SQL Masterclass L4: basic SQL commands",V,"44:35",2,"Vizuara SQL series, PostgreSQL: basics only"],
+   ["gjGKdx4QPS4","Advanced SQL: JOINs and RANK",V,"46:47",2],
+   ["o666k19mZwE","SQL window functions visually explained","Data with Baraa","57:19",1],
+   ["DiQ5Hni6oRI","SQL databases with Pandas and Python – complete guide","Rob Mulla","16:59",0,"Using SQL from Python"],
+   ["j91ZJZ8b1sY","SQL Masterclass: connect SQL with Python",V,"22:35",2,"Uses psycopg2 rather than Pandas"],
+   ["aAy-B6KPld8","SQLAlchemy overview for Python","ArjanCodes","16:39",1,"Engine and ORM basics before FastAPI + DB work"],
+   ["mAFoROnOfHs","Git & GitHub Crash Course for Beginners [2026]","freeCodeCamp","1:21:20"],
+   ["M81pfi64eeM","Python Pydantic Tutorial: Complete Data Validation Course","Corey Schafer","1:29:25",0,"FastAPI is built on Pydantic"]],
+  p:"A small CLI that loads a JSON file, validates it with Pydantic models and prints a NumPy summary. Then load a real dataset into SQLite, write 5 queries (a join, a GROUP BY, a window-function ranking) and pull the results into Pandas with pd.read_sql. Keep it all in a Git repo from day one."},
+ {t:"Async Python + FastAPI",g:"How the event loop works, then building real APIs on top of it, then shipping them in containers.",
+  items:[
+   ["Qb9s3UiMSTA","Asyncio in Python – Full Tutorial","Tech With Tim","24:59",0,"Quick mental model first"],
+   ["oAkLSJNr5zY","AsyncIO – Complete Guide to Asynchronous Programming with Animations","Corey Schafer","1:42:41",0,"Event loop, tasks, gather, timeouts in depth"],
+   ["iukOehU5aF4","Python FastAPI Tutorial: Full Course for Beginners","Corey Schafer","14:23:37",0,"Routing, validation, SQLAlchemy, auth, and Part 7 converts the app to async"],
+   ["pg19Z8LL06w","Docker Crash Course for Absolute Beginners","TechWorld with Nana","1:07:39"]],
+  p:"An async FastAPI service that calls three external APIs concurrently with httpx + asyncio.gather, validates responses with Pydantic, and runs in Docker."},
+ {t:"Maths for ML",g:"Vectors and matrices, derivatives and gradients, probability and statistics: enough intuition that later ML and LLM maths reads naturally. Vizuara's Foundations lectures are the main track; 3Blue1Brown's short animated versions are optional extras.",
+  items:[
+   ["llV4uj58wuA","Linear algebra: vectors, transformations, span, basis (Foundations L2)",V,"43:01"],
+   ["fNk_zzaMoSs","Vectors (Linear algebra ch.1)","3Blue1Brown","9:51",2,"10-minute animated version"],
+   ["k7RM-ot2NWY","Linear combinations, span and basis (LA ch.2)","3Blue1Brown","9:59",2,"Animated version"],
+   ["W49sCL5Lsxc","Linear transformation as matrix multiplication (Foundations L3)",V,"44:52"],
+   ["kYB8IZa5AuE","Linear transformations and matrices (LA ch.3)","3Blue1Brown","10:58",2,"Animated version"],
+   ["11GtIkzbGwo","3D linear transformations (Foundations L4)",V,"21:08",1],
+   ["rHLEWRxRGiM","3D linear transformations (LA ch.5)","3Blue1Brown","4:46",2],
+   ["wBW1Y8NCc9s","Product of two matrices = composite transformation (Foundations L5)",V,"36:04"],
+   ["XkY2DOUCWMU","Matrix multiplication as composition (LA ch.4)","3Blue1Brown","10:03",2,"Animated version"],
+   ["X5AKfID0aXQ","A simple physical intuition for determinants (Foundations L6)",V,"55:04"],
+   ["Ip3X9LOh2dk","The determinant (LA ch.6)","3Blue1Brown","10:03",2,"Animated version"],
+   ["RUtFveu7utU","Non-square matrices: 2D to 3D (Foundations L7)",V,"18:49",1],
+   ["v8VSDg_WQlA","Nonsquare matrices (LA ch.8)","3Blue1Brown","4:27",2],
+   ["SyofJSMKoXg","Matrix inverse: physical meaning in transformations (Foundations L8)",V,"47:26"],
+   ["uQhTuRlWMxw","Inverse matrices, column space and null space (LA ch.7)","3Blue1Brown","12:08",1,"Adds column space and rank"],
+   ["47c2138lFRI","Dot product and transformations (Foundations L9)",V,"28:41",0,"Key for embeddings and attention"],
+   ["LyGKycYT2v0","Dot products and duality (LA ch.9)","3Blue1Brown","14:11",2,"Animated version"],
+   ["P2LTAUO1TdA","Change of basis (LA ch.13)","3Blue1Brown","12:50",0,"No Vizuara video on this; needed for PCA"],
+   ["-PmMvHPUto4","Simple intuition of eigenvalues and eigenvectors (Foundations L10)",V,"33:24",0,"Foundation for PCA"],
+   ["h-kLbN4LIqk","What exactly are eigenvalues and eigenvectors? Geometric interpretation",V,"1:00:57",2,"Longer, deeper version"],
+   ["PFDu9oVAE-g","Eigenvectors and eigenvalues (LA ch.14)","3Blue1Brown","17:15",2,"Animated version"],
+   ["e50Bj7jn9IQ","Quick trick for computing eigenvalues (LA ch.15)","3Blue1Brown","13:12",1],
+   ["TgKwz5Ikpc8","Abstract vector spaces (LA ch.16)","3Blue1Brown","16:46",1],
+   ["e9U0QAFbfLI","Cosine similarity","StatQuest","10:13",0,"No dedicated Vizuara video; used constantly in RAG"],
+   ["ZTt9gsGcdDo","Essential matrix algebra for neural networks","StatQuest","30:00",1,"Bridges linear algebra to NN and transformer maths"],
+   ["rSjt1E9WHaQ","Linear Algebra Course – Maths for ML and GenAI","freeCodeCamp","6:05:12",2,"One-course alternative to the lectures above"],
+   ["fe_3VwWf1wE","Introduction to calculus for ML (Foundations L17)",V,"25:24"],
+   ["WUvTyaaNkzM","The essence of calculus (Calculus ch.1)","3Blue1Brown","17:04",2,"Animated version, more depth on derivatives"],
+   ["9vKqVkMQHKk","The paradox of the derivative (Calc ch.2)","3Blue1Brown","16:50",1],
+   ["S0_qX4VJhMQ","Derivative formulas through geometry (Calc ch.3)","3Blue1Brown","17:33",1],
+   ["VFg7WlMlIQs","Chain rule for ML (Foundations L18)",V,"22:59",0,"The chain rule is the basis of backprop"],
+   ["YG15m2VwSjA","Chain rule and product rule (Calc ch.4)","3Blue1Brown","15:56",2,"Animated version"],
+   ["wl1myxrtQHQ","The chain rule, with ML examples","StatQuest","18:23",2],
+   ["m2MIpDrF7Es","What's so special about e? (Calc ch.5)","3Blue1Brown","13:50",1],
+   ["rfG8ce4nNh0","Integration and the fundamental theorem (Calc ch.8)","3Blue1Brown","20:46",1,"Helps with probability densities"],
+   ["BLkz5LGWihw","Higher order derivatives (Calc ch.10)","3Blue1Brown","5:38",1],
+   ["3d6DsjIBzJ4","Taylor series (Calc ch.11)","3Blue1Brown","22:19",1],
+   ["ghe3sK5d4ME","Partial derivatives and gradient descent (Foundations L20)",V,"34:27"],
+   ["AXqhWeUEtQU","Partial derivatives, introduction","Khan Academy","10:55",2],
+   ["tIpKfDc295M","Gradient","Khan Academy","5:30",2],
+   ["ux7EQ3ip2DU","Multivariable maxima and minima","Khan Academy","8:04",1],
+   ["jl5LjHyrgBg","Gradient descent in ML (Foundations L21)",V,"49:22"],
+   ["TkuYcUc8R_o","Gradient descent algorithm (Teach by Doing L17)",V,"49:40",2,"Python"],
+   ["sDv4f4s2SB8","Gradient descent, step by step","StatQuest","23:54",2,"Short version"],
+   ["IHZwWFHWa-w","Gradient descent, how neural networks learn","3Blue1Brown","20:33",2],
+   ["poE7rz7o0FI","Stochastic gradient descent from scratch (Foundations L23)",V,"44:19",1],
+   ["vMh0zPT0tLI","Stochastic gradient descent","StatQuest","10:53",2],
+   ["SwryhCJMIzA","Probability and statistics: an introduction (Foundations L11)",V,"47:01"],
+   ["qBigTkBLU6g","Histograms","StatQuest","3:42"],
+   ["A2syTqforPM","Probability distributions (Foundations L14)",V,"39:18"],
+   ["oI3hZJqXJuc","Main ideas behind probability distributions","StatQuest","5:14",2],
+   ["rzFX5NWojp0","The normal distribution","StatQuest","5:12"],
+   ["vikkiwjQqfU","Population vs estimated parameters","StatQuest","14:31"],
+   ["SzZ6GpcfoQY","Mean, variance and standard deviation","StatQuest","14:22",0,"Vizuara's version is in Julia"],
+   ["sHRBg6BhKjI","Why dividing by N underestimates variance","StatQuest","17:14",1],
+   ["KLs_7b7SKi4","Expected values","StatQuest","13:39"],
+   ["ppmDx8V9Tg0","Conditional probability (Foundations L12)",V,"46:46"],
+   ["_IgyaD7vOOA","Conditional probabilities","StatQuest","10:56",2],
+   ["mhX9ktDPZrw","Bayes' theorem: intuition and basics (Foundations L13)",V,"19:57"],
+   ["9wCnvr7Xw4E","Bayes' theorem","StatQuest","13:59",2],
+   ["HZGCoVF3YvM","Bayes' theorem, the geometry of changing beliefs","3Blue1Brown","15:11",2,"Animated version"],
+   ["J8jNoF-K8E8","Binomial distribution and test","StatQuest","15:46",1],
+   ["qtaqvPAeEJY","Covariance","StatQuest","22:23"],
+   ["xZ_z8KWkhXE","Pearson's correlation","StatQuest","19:13"],
+   ["YAlJCEDH2uY","Central limit theorem","StatQuest","7:35"],
+   ["zeJD6dqJ5lo","But what is the central limit theorem?","3Blue1Brown","31:14",1],
+   ["A82brFpdr9g","Standard deviation vs standard error","StatQuest","2:52"],
+   ["TqOeMYtOc1w","Confidence intervals","StatQuest","6:41"],
+   ["qrTLZ1fOXBM","Null and alternate hypothesis, z/t-test, p-value (Foundations L15)",V,"20:17"],
+   ["0oc49DyA3hU","Hypothesis testing and the null hypothesis","StatQuest","14:40",2],
+   ["5koKb5B_YWo","Alternative hypotheses","StatQuest","9:49",2],
+   ["vemZtEM63GY","p-values: what they are and how to interpret them","StatQuest","11:21",0,"Goes deeper on p-values than the Vizuara lecture"],
+   ["JQc3yx0-Q9E","How to calculate p-values","StatQuest","25:15",1],
+   ["HDCOUXE3HMM","p-hacking and how to avoid it","StatQuest","13:44",1,"Relevant to A/B tests and evals"],
+   ["Rsc5znwR5FA","Statistical power","StatQuest","8:19",1],
+   ["Xz0x-8-cgaQ","Bootstrapping main ideas","StatQuest","9:27",1,"Handy for eval confidence intervals"],
+   ["VSi0Z04fWj0","Logs (logarithms)","StatQuest","15:37",1,"Watch if log-likelihood feels shaky"],
+   ["pYxNSUDSFH4","Probability is not likelihood","StatQuest","5:01"],
+   ["XepXtl9YKwc","Maximum likelihood","StatQuest","6:12",0,"Vizuara's version is Hindi-only"],
+   ["Dn6b9fCIUpM","Maximum likelihood for the normal distribution","StatQuest","19:50"],
+   ["q3agYqgqklU","Entropy: AI mental model #9",V,"29:23",0,"Leads to cross-entropy loss and tree splits"],
+   ["YtebGVx-Fxw","Entropy for data science","StatQuest","16:34",2],
+   ["wTTYHM_DMxw","Intuition behind cross-entropy loss in ML",V,"25:46",2]],
+  p:"A NumPy-only notebook: cosine similarity between word vectors, eigenvectors of a 2×2 covariance matrix, a line fitted with your own gradient-descent loop, and a simulated A/B test with a p-value and a bootstrap confidence interval."},
+ {t:"Classical machine learning",g:"Train, evaluate and tune scikit-learn models properly, without leakage, and know how each major algorithm works. Most production ML is still this.",
+  items:[
+   ["ngiICHD5dVc","Machine Learning: Teach by Doing, lecture 1",V,"26:13",0,"Course based on MIT 6.036"],
+   ["3QlmEF6WHKg","Teach by Doing lecture 2: AI vs ML vs DL, and history",V,"34:02",2],
+   ["Gv9_4yMHFhI","A gentle introduction to machine learning","StatQuest","12:45",2,"Short version"],
+   ["5twXk7iZzNs","Types of ML models (Teach by Doing, day 3)",V,"37:13"],
+   ["G7IS82tTj0c","Machine learning algorithms overview: what exists out there?",V,"28:36",1],
+   ["SkvBO4ROl3Q","Machine Learning Tutorial for Beginners (full crash course)","codebasics","5:24:57",0,"No single Vizuara equivalent. Code-along backbone: pair each chapter with the theory videos below"],
+   ["-s5HTjYYefQ","The 6 steps of any ML project, incl. train vs test error (Teach by Doing, day 4)",V,"27:00"],
+   ["TPkv7NwEbCU","Train vs validation vs test sets","DataMListic","4:56",2,"Focused on the split itself"],
+   ["n9jz7G68pVg","What is data leakage in ML?","Krish Naik","10:49",0,"No Vizuara video on this"],
+   ["EuBBz3bI-aA","Bias and variance","StatQuest","6:36",0,"Vizuara's version is Hindi-only"],
+   ["fSytzGwwBVw","Cross validation","StatQuest","6:04",0,"Vizuara's version is Hindi-only"],
+   ["OLGd4ncgGcQ","Linear regression introduction (Teach by Doing L21)",V,"31:14"],
+   ["n9BaRNWqetE","Ordinary least squares step by step (Teach by Doing L22)",V,"59:25",0,"Includes the matrix form for multiple features"],
+   ["PaFPbb66DxQ","Main ideas of fitting a line (least squares)","StatQuest","9:21",2],
+   ["7ArmBVF2dCs","Linear regression","StatQuest","27:26",2],
+   ["zITIFTsivN8","Multiple regression","StatQuest","5:25",2],
+   ["ZhIyp_3G0Gc","Regression recap for interviews",V,"27:39",2],
+   ["bMccdk8EdGo","R-squared","StatQuest","11:01"],
+   ["Wk8vycBT4qM","Regression metrics: MSE, MAE, RMSE","Greg Hogg","8:30"],
+   ["VNrdslReSZU","Regularization: Lasso (L1) and Ridge (L2) (Foundations L27)",V,"1:04:03",0,"Python + scikit-learn demo"],
+   ["Q81RR3yKn30","Ridge (L2) regression","StatQuest","20:26",2],
+   ["NGf0voTMlcs","Lasso (L1) regression","StatQuest","8:19",2],
+   ["1dKRdX9bfIo","Elastic net regression","StatQuest","5:19",1],
+   ["qGYnWT7yZXk","Logistic regression, part 1 (Teach by Doing L15)",V,"46:02"],
+   ["qZ1fyE5mNoI","Logistic regression from the ground up, coded (Teach by Doing L18)",V,"55:53",0,"Python from scratch, no scikit-learn"],
+   ["ARfXDSkQf1Y","Odds and log(odds)","StatQuest","11:30",2],
+   ["yIYKR4sgzI8","Logistic regression","StatQuest","8:47",2],
+   ["vN5cNN2-HWE","Logistic regression details: coefficients","StatQuest","19:02",2],
+   ["BfKanl1aSG0","Logistic regression details: maximum likelihood","StatQuest","10:23",2],
+   ["CQy5bNjUh4k","Naive Bayes + model evaluation and the confusion matrix (Foundations L16)",V,"42:43"],
+   ["Kdsp6soqA7o","The confusion matrix","StatQuest","7:12",2],
+   ["O2L2Uv9pdDA","Naive Bayes","StatQuest","15:12",2],
+   ["vP06aMoz4v8","Sensitivity and specificity","StatQuest","11:46"],
+   ["Wo8PSNBP4yE","Introduction to scikit-learn: split, scaling, KNN, tree, confusion matrix, precision/recall/F1",V,"46:49",0,"Python code-along"],
+   ["sJR-1yz7mnI","Precision, recall and F1-score","Krish Naik","9:02",2,"Concept-focused"],
+   ["4jRBRDbJemM","ROC and AUC","StatQuest","16:17",0,"No Vizuara video on this"],
+   ["GR-OW5asKlk","Handling imbalanced datasets","Emma Ding","13:43",1],
+   ["589nCGeWG1w","One-hot, label, target and k-fold target encoding","StatQuest","15:23",0,"Broader than Vizuara's one-hot-only lecture"],
+   ["hHlfvxt4O9c","One-hot encoding in Python (Teach by Doing L14)",V,"35:19",1],
+   ["sxEqtjLC0aM","Standardization vs normalization","Normalized Nerd","5:48",0,"Feature scaling"],
+   ["0B5eIE_1vpU","Scikit-learn crash course","freeCodeCamp","2:09:22",0,"Adds Pipelines and meta-estimators, which Vizuara doesn't cover"],
+   ["NGq8wnH5VSo","ColumnTransformer: different preprocessing per column","Data School","3:23"],
+   ["HdlDYng8g9s","Hyperparameter tuning with GridSearchCV","codebasics","16:29",0,"Vizuara's version is Hindi-only"],
+   ["HVXime0nQeI","K-nearest neighbors","StatQuest","5:30"],
+   ["_L39rN6gz7Y","Decision and classification trees","StatQuest","18:08"],
+   ["JwLKSCJmouU","What are decision trees?",V,"18:30",1],
+   ["LX7KuA-sfEo","Code an entire classification tree in Python (heart disease)",V,"1:30:45",0,"Missing data, one-hot, cost-complexity pruning and CV"],
+   ["q90UDEgYqeI","Classification trees in Python, start to finish","StatQuest","1:06:23",2],
+   ["voTfwXWSImE","Regression tree in Python",V,"46:14",1],
+   ["g9c66TUylZ4","Regression trees","StatQuest","22:33",2],
+   ["D0efHEJsfHo","Pruning regression trees","StatQuest","16:15",2],
+   ["J4Wdy0Wc_xQ","Random forests part 1","StatQuest","9:54"],
+   ["FAvSMDhazQ0","Random forest explained and built from scratch",V,"1:13:32",1,"In Vizuara's Julia playlist: the code may be Julia"],
+   ["LsK-xG1cLYA","AdaBoost","StatQuest","20:54",0,"Background for gradient boosting; no Vizuara video on boosting"],
+   ["3CC4N4z3GJc","Gradient boost part 1: regression main ideas","StatQuest","15:52"],
+   ["2xudPOBz-vs","Gradient boost part 2: regression details","StatQuest","26:45",1],
+   ["jxuNLH5dXCs","Gradient boost part 3: classification","StatQuest","17:02"],
+   ["StWY5QWMXCw","Gradient boost part 4: classification details","StatQuest","36:59",1],
+   ["OtD8wVaFm6E","XGBoost part 1: regression","StatQuest","25:46"],
+   ["8b1JEDvenQU","XGBoost part 2: classification","StatQuest","25:17",1],
+   ["ZVFeW798-2I","XGBoost part 3: mathematical details","StatQuest","27:24",1],
+   ["oRrKeUCEbq8","XGBoost part 4: optimizations","StatQuest","24:27",1],
+   ["GrJP9FLV3FE","XGBoost in Python, start to finish","StatQuest","56:43"],
+   ["efR1C6CvhmE","Support vector machines part 1: main ideas","StatQuest","20:32",1],
+   ["Toet3EiSFcM","SVM part 2: polynomial kernel","StatQuest","7:15",1],
+   ["Qc5IyLW_hns","SVM part 3: radial (RBF) kernel","StatQuest","15:52",1],
+   ["4b5d3muPQmA","K-means clustering","StatQuest","8:30",0,"Vizuara's version is in Julia"],
+   ["HMOI_lkzW08","PCA main ideas in 5 minutes","StatQuest","6:04"],
+   ["FgakZw6K1QQ","PCA step by step","StatQuest","21:57",0,"Vizuara's version codes it in Julia"],
+   ["Lsue2gEM9D0","PCA in Python","StatQuest","11:37",1],
+   ["i_LwzRVP7bg","Machine Learning for Everybody – full course","freeCodeCamp","3:53:53",1,"An alternative full-course pass"],
+   ["I3FBJdiExcg","Beginner Kaggle project walk-through (Titanic)","Ken Jee","38:16",0,"End-to-end Kaggle-style project (2020)"],
+   ["NQQ3DRdXAXE","Beginner Kaggle project walk-through (House Prices)","Ken Jee","1:01:01",1,"Regression counterpart to Titanic"]],
+  p:"Kaggle Titanic or House Prices: a scikit-learn Pipeline with a ColumnTransformer, compare linear/logistic regression, random forest and XGBoost with cross-validation, tune the best with GridSearchCV, report F1 + ROC-AUC (or RMSE) and submit. Load the data through your phase 1 SQL setup."},
+ {t:"Neural networks from scratch",g:"Build a full network in NumPy so backprop, softmax, cross-entropy and Adam are no longer magic. Then switch to PyTorch.",
+  items:[
+   ["XZyaJLb3DOs","Introduction to Optimization for Machine Learning",V,"56:04",1],
+   ["zrKpz9-AZ_E","L1 · Coding Neurons and Layers",V,"28:37"],
+   ["mK_PfqM88OY","L2 · NumPy and dot product in neurons and layers",V,"40:21"],
+   ["NxwM_eI0Qvk","L3 · Stacking multiple layers",V,"13:08"],
+   ["qFMpq46hEjE","L4 · Implementing the Dense Layer class",V,"25:24"],
+   ["rtFpq608aEo","L5 · Broadcasting and array summation",V,"25:28"],
+   ["SP372QpruDg","L6 · Activation functions from scratch",V,"43:16"],
+   ["r1cUcSgGbAI","L7 · One forward pass",V,"14:33"],
+   ["QgfINhYPnH0","L8 · Cross-entropy loss from scratch",V,"44:03"],
+   ["WVFMxpTD09w","L9 · Introduction to optimization",V,"27:06"],
+   ["Utvna4t0NmA","L10 · Partial derivatives and gradient",V,"24:56"],
+   ["_rVPkUag1YU","L11 · Chain rule",V,"21:08"],
+   ["iE1lccrHfok","L12 · Backprop on a single neuron",V,"34:01"],
+   ["wLLuNyZM8Sw","L13 · Backprop through a layer",V,"30:11"],
+   ["cuveqaYX1bw","L14 · Role of matrices in backprop",V,"39:28"],
+   ["sjbs-usnjIY","L15 · Derivatives of inputs",V,"28:28"],
+   ["UOgFWMLrWcA","L16 · Backprop building blocks in code",V,"22:59"],
+   ["PmqHkytaRSU","L17 · Backprop on ReLU",V,"12:45"],
+   ["QXAmRT3mvFk","L18 · Backprop on cross-entropy",V,"26:31"],
+   ["LcnJXM-XcTE","L19 · Softmax + cross-entropy backprop",V,"28:08"],
+   ["ea7njAlmKcY","L20 · Full backprop pipeline",V,"22:10"],
+   ["sPlBSyJeDqA","L21 · Full forward + backward pass",V,"19:34"],
+   ["N9rKiaiStAI","L22 · Gradient descent optimizer",V,"31:03"],
+   ["JgswWWIsAXU","L23 · Learning-rate decay",V,"20:28"],
+   ["hYZc1Z8jRiw","L24 · Momentum",V,"26:54"],
+   ["xqtHOPHp7hA","L25 · AdaGrad",V,"38:44",1],
+   ["WFbBbWYrcuI","L26 · RMSProp",V,"32:00",1],
+   ["7e0nX6WpnDM","L27 · Adam optimizer",V,"45:20",0,"LLMs are trained with AdamW"],
+   ["Fxi1EsylW7s","L28 · Testing, generalization, overfitting",V,"18:18"],
+   ["FZ3-y8yyAKo","L29 · K-fold cross-validation",V,"14:35",1],
+   ["tZA5nVMITeM","L30 · L1/L2 regularization",V,"42:20"],
+   ["tkvlspCbLqo","L31 · Dropout layers",V,"32:15"],
+   ["adEmo0Lqsto","Project · Fashion-MNIST",V,"46:35"],
+   ["UdvpeR6-IM0","Project · California Housing",V,"32:46",1],
+   ["CaFMTvAy38Q","Neural Networks in 100 minutes (revision)",V,"1:41:53",1],
+   ["r1bquDz5GGA","PyTorch in 1 Hour","Zachary Huang","1:02:49",0,"Tensors, autograd, training loop: needed from phase 4 on"]],
+  list:NN,
+  p:"Fashion-MNIST classifier in pure NumPy, then the same model in PyTorch. Compare accuracy and lines of code."},
+ {t:"Build an LLM from scratch",g:"Tokenizer → attention → GPT-2 → pretraining → fine-tuning. Raschka's chapter videos are the main track; Vizuara's free lectures explain the same steps more slowly.",
+  items:[
+   ["3dWzNZXA8DY","L2 · Large Language Model basics",V,"33:42"],
+   ["NLn4eetGmf8","L4 · What are transformers?",V,"40:40"],
+   ["z9fgKz1Drlc","L6 · Stages of building an LLM",V,"20:15"],
+   ["yAcWnfsZhzo","Ch 1 · Set up your code environment","Sebastian Raschka","21:02"],
+   ["341Rb8fJxY0","Ch 2 · Working with text data","Sebastian Raschka","1:28:01"],
+   ["fKd8s29e-l4","L8 · The GPT tokenizer: Byte Pair Encoding",V,"53:35",1],
+   ["ghCSGRgVB_o","L10 · What are token embeddings?",V,"1:00:52",1],
+   ["-Ll8DtpNtvk","Ch 3 · Coding attention mechanisms","Sebastian Raschka","2:15:41"],
+   ["eSRhpYLerw4","L14 · Simplified attention, coded",V,"1:19:22",1],
+   ["h94TQOK7NRA","L16 · Causal self-attention, coded",V,"55:55",1],
+   ["K5u9eEaoxFg","L18 · Multi-head attention: the maths",V,"1:01:13",1],
+   ["YSAkgEarBGE","Ch 4 · Implementing a GPT model","Sebastian Raschka","1:45:37"],
+   ["G3W-LT79LSI","L20 · Layer normalization",V,"38:57",1],
+   ["2r0QahNdwMw","Shortcut connections",V,"32:46",1],
+   ["Zar2TJv-sE0","Ch 5 · Pretraining on unlabeled data","Sebastian Raschka","2:36:44"],
+   ["EhU32O7DkA4","Top-k sampling",V,"23:34",1],
+   ["yXrGeDNuymY","Loading pre-trained weights from OpenAI GPT-2",V,"50:21",1],
+   ["5PFXJYme4ik","Ch 6 · Finetuning for classification","Sebastian Raschka","2:15:29"],
+   ["4yNswvhPWCQ","Ch 7 · Instruction finetuning","Sebastian Raschka","1:46:04"],
+   ["7m2jV7BOFkA","Evaluating a fine-tuned LLM using Ollama",V,"52:58"],
+   ["kCc8FmEb1nY","Let's build GPT: from scratch, in code, spelled out","Andrej Karpathy","1:56:20",0,"Consolidates the whole phase in one sitting"],
+   ["zduSFxRajkE","Let's build the GPT Tokenizer","Andrej Karpathy","2:13:35",1]],
+  p:"Pretrain a small GPT on a text corpus you care about, load GPT-2 weights, then instruction-tune it and chat with it. Code: github.com/rasbt/LLMs-from-scratch."},
+ {t:"Modern LLM internals (DeepSeek)",g:"KV cache, GQA, latent attention, RoPE, mixture-of-experts and quantization: the parts that make Kimi, DeepSeek and GLM fast and big.",
+  items:[
+   ["IDwTiS4_bKo","Key-Value cache from scratch",V,"59:42",0,"The single most important idea for inference cost"],
+   ["Z6B51Odtn-Y","Multi-Query Attention",V,"37:44"],
+   ["kx3rETIxo4Q","Grouped Query Attention (GQA)",V,"35:55"],
+   ["NlDQUj1olXM","Multi-Head Latent Attention from scratch",V,"1:01:40"],
+   ["mIaWmJVrMpc","Multi-Head Latent Attention coded in Python",V,"47:09"],
+   ["bQCQ7VO-TWU","Sinusoidal positional encodings",V,"46:20",1],
+   ["a17DlNxkv2k","Rotary Positional Encodings (RoPE), visually",V,"34:38"],
+   ["m1x8vA_Tscc","How DeepSeek implemented MLA + RoPE",V,"1:04:15",1],
+   ["v7U21meXd6Y","Mixture of Experts (MoE) introduction",V,"29:59"],
+   ["yw6fpYPJ7PI","MoE hands-on demonstration",V,"38:11"],
+   ["nRadcspta_8","MoE balancing: auxiliary loss, capacity factor",V,"42:36"],
+   ["KnSIZ83iPKs","How DeepSeek rewrote MoE",V,"53:49"],
+   ["W7ktPe1HfZs","Code MoE from scratch in Python",V,"48:04"],
+   ["tMtHAAg0UT4","Multi-Token Prediction introduction",V,"37:10",1],
+   ["0U9l3-r6jVE","Introduction to LLM quantization",V,"20:25"],
+   ["xftka2aXnm4","How DeepSeek rewrote quantization, part 1",V,"31:57",1],
+   ["hBUsySdcA3I","Let us build GPT-OSS from scratch",V,"3:05:35",1]],
+  p:"Upgrade your phase 6 GPT: add a KV cache, swap in GQA and RoPE, and measure tokens/second before and after."},
+ {t:"Working with LLMs",g:"Prompting well, then using real models through Hugging Face, Ollama and OpenAI-compatible APIs, with tool calls, structured JSON output and embeddings.",
+  items:[
+   ["ysPbXH0LpIE","Prompting 101 (Code w/ Claude)","Anthropic","24:53",0,"Builds a real prompt step by step"],
+   ["T9aRN5JkmL8","AI prompt engineering: a deep dive (roundtable)","Anthropic","1:16:43",1],
+   ["G2B0YWuJUgI","The prompting playbook: prompting for agentic systems","Claude","33:49",1],
+   ["jan07gloaRg","The Hugging Face Transformers library","Shaw Talebi","21:58"],
+   ["UtSSMs6ObqY","Learn Ollama in 15 minutes","Tech With Tim","14:02"],
+   ["0pGxoubWI6s","OpenAI Responses API walkthrough with code","Dave Ebbelaar","29:52",0,"LLM API basics in Python"],
+   ["wBuULAoJxok","Responses API: streaming, tools and agents","Leon van Zyl","15:53",1,"Covers streaming"],
+   ["hNr5EebepYs","Build Hour: Responses API","OpenAI","51:16",1],
+   ["aqdWSYWC_LI","OpenAI Function Calling – Full Beginner Tutorial","Dave Ebbelaar","28:24",0,"Same API shape works against Ollama and vLLM"],
+   ["fuMKrKlaku4","OpenAI Structured Output – All You Need to Know","Dave Ebbelaar","24:46"],
+   ["kE4BkATIl9c","Structured outputs for reliable applications (DevDay)","OpenAI","40:40",1,"JSON schema and Pydantic outputs, from the source"],
+   ["yVZTtnSkya8","A visual guide to word embeddings",V,"19:04",0,"One-hot → Word2Vec → cosine similarity → BERT/GPT embeddings"],
+   ["gN3mFqEOgxw","Vector embeddings explained with simple examples and easy code",V,"22:07",2,"Code version"],
+   ["wgfSDrqYMJ4","What are word embeddings?","IBM Technology","8:38",2,"Short version"],
+   ["aI_ia-8tjSs","What are vector databases?",V,"22:01",0,"Embeddings, similarity, semantic vs keyword search"],
+   ["YDdKiQNw80c","Vector search with LLMs","Computerphile","20:18",2],
+   ["kdtkuN1jgVw","How do vector databases work?",V,"29:52",1],
+   ["9fw5u_fUd6A","Vector databases: semantic search with Pinecone",V,"32:43",1,"Hands-on code-along"],
+   ["lR931Iz8Z6U","Vector databases full course: embeddings, similarity search, ChromaDB","freeCodeCamp","1:39:33",2,"Uses ChromaDB (local, open source) instead of Pinecone"]],
+  p:"A FastAPI endpoint that streams answers from a local Ollama model and returns Pydantic-validated JSON, with one tool the model can call."},
+ {t:"Fine-tuning",g:"LoRA and QLoRA: adapting an open model to your data on a single GPU.",
+  items:[
+   ["t1caDsMzWBk","LoRA & QLoRA fine-tuning explained in-depth","Mark Hennings","14:39"],
+   ["XpoKB3usmKc","QLoRA: fine-tune an LLM on a single GPU (with code)","Shaw Talebi","36:58"],
+   ["Lt7KrFMcCis","How to fine-tune LLMs with Unsloth: complete guide","pookie","1:24:48",0,"Covers GGUF export and running in Ollama"],
+   ["IIvORO248Zs","LLM Fine Tuning Crash Course","codebasics","53:42",1]],
+  p:"QLoRA-tune Gemma 4 on a few hundred of your own Q&A pairs with Unsloth, export to GGUF and serve it in Ollama."},
+ {t:"Deployment and MLOps",g:"How serving engines work, then production habits: modular code, Docker, CI/CD, experiment tracking, model registry, drift monitoring.",
+  items:[
+   ["QyHHbeXqgrQ","How the vLLM inference engine works",V,"1:13:42",0,"PagedAttention, batching, why it's fast"],
+   ["q5IF2PHA5SA","vLLM: easily deploying and serving LLMs","NeuralNine","15:19"],
+   ["aNoFSzmViy4","Introduction to Machine Learning Engineering",V,"1:03:15",1],
+   ["DIOohqsGMdA","ML in Production · How to write modular code",V,"1:03:02"],
+   ["KhBuiAq06jA","ML in Production · How Docker helps in deployment",V,"48:29"],
+   ["CYJVpDtpIOI","ML in Production · All about CI/CD, part 1",V,"30:54"],
+   ["r73fsl1G44Q","ML in Production · CI/CD part 2: production-ready anomaly detection system",V,"1:54:21",0,"CI/CD, model versioning, Docker, observability hooks"],
+   ["tVskbekONlw","MLflow full course: tracking, autolog, model registry, serving","freeCodeCamp","5:27:46",0,"MLflow 3 (Mar 2026). Core is 0:00–2:33; the rest is Databricks-specific","2:33:00"],
+   ["6ngxBkx05Fs","MLflow tutorial: tracking + model registry + DagsHub","codebasics","50:31",1,"Shorter alternative or review"],
+   ["9EefrhYXtjQ","W&B for your ML experiments: hyperparameter tuning like a pro",V,"51:36",0,"Run logging, comparing runs, sweeps"],
+   ["hmewPDNUNJs","Log your first run with W&B","CoreWeave (W&B)","2:53",2],
+   ["FkTwcxnSPes","W&B Models end-to-end demo","CoreWeave (W&B)","15:56",2,"Official demo: tracking, artifacts, registry"],
+   ["p4XkVOsjIeM","Getting started with W&B Registry","CoreWeave (W&B)","12:42",1,"Model and dataset versioning (not in the Vizuara lecture)"],
+   ["SIGFopnCoNQ","ML in Production · Deployment and monitoring",V,"1:03:53"],
+   ["Wfphz6TUikM","What is ML monitoring and observability?","Evidently AI","8:12"],
+   ["bMYcB_5gP4I","Data and prediction drift in ML","Evidently AI","16:34"],
+   ["oO1K4CaWxt0","Data and prediction drift – code practice","Evidently AI","20:45",0,"Uses the 2023 Evidently API: pin that version or adapt to v0.7+"],
+   ["N47SHSP6RuY","Deep dive into data drift detection methods","Evidently AI","23:06",1],
+   ["gluRb9TbWSE","Log data drift test results to MLflow","Evidently AI","16:46",1,"2023 Evidently API"],
+   ["UbL7VUpv1Bs","Version control for data science explained (DVC)","DVCorg","5:03",1],
+   ["kLKBcPonMYw","Versioning data with DVC – hands-on","DVCorg","13:04",1,"Older, but the add/push/pull flow still applies"]],
+  p:"docker compose with vLLM (OpenAI-compatible, tool-call parser enabled) behind your own async FastAPI gateway: API keys, rate limits, streaming, request logs, and a GitHub Actions pipeline. For your phase 4 model: log every run to MLflow or W&B, promote the best one with a \"champion\" alias that the serving container loads, and run a scheduled Evidently drift report against the training data."},
+ {t:"RAG and context engineering",g:"Giving a model the right context: system prompts, retrieval, memory.",
+  items:[
+   ["xlUIiTSaFKI","Foundations of Context · L1",V,"2:05:55"],
+   ["HvBCcmzS_vs","The instructional layer (system prompts) · L2",V,"2:28:03"],
+   ["zvWIfROm-uE","RAG from scratch: build your own chatbot · L3",V,"2:41:08"],
+   ["dyUojOVBEcE","Production-level RAG workshop, part 1",V,"3:27:08"],
+   ["gwAJi4d9QaE","Production-level RAG workshop, part 2",V,"3:56:11",1],
+   ["WWTngf_OqaY","Memory management · L6",V,"2:14:47"]],
+  p:"A RAG service over a real document set (your company's docs or manuals): chunking, embeddings, a vector store, citations in every answer."},
+ {t:"Agents, tool calling and MCP",g:"Agent loops by hand first, then MCP and LangGraph, then a coding agent end to end.",
+  items:[
+   ["vHDwpoSFdQY","Intro to Agents: create an agent from scratch (no frameworks)","Hugging Face","36:34"],
+   ["bTMPwUgLZf0","Build an AI agent from scratch in Python","Tech With Tim","34:20",1],
+   ["v-qDbpNeluk","Introduction to Model Context Protocol (MCP) · L4",V,"2:26:41"],
+   ["-8k9lGpGQ6g","Build anything with a custom MCP server","Tech With Tim","26:01"],
+   ["jGg_1h0qzaM","LangGraph Complete Course for Beginners","freeCodeCamp","3:09:52"],
+   ["LLDkAr5MZR8","Multi-agent context management, AGENTS.md · L5",V,"2:41:36"],
+   ["0jBq-3c1Jl8","Build Claude Code from Scratch · L1 Series introduction",V,"23:43"],
+   ["81YzYPZ0y0A","Build Claude Code from Scratch · L2 Context engineering manifesto",V,"40:50"],
+   ["k2-_UQo97vo","Build Claude Code from Scratch · L3 Anatomy of context",V,"53:12"],
+   ["YXWTbjFZDck","Build Claude Code from Scratch · L4 System prompts that actually work",V,"17:24",0,"Prompting for agents"],
+   ["vi_Zu0LNuTw","n8n in 100 minutes",V,"1:49:59",1]],
+  p:"An agent with 3–5 tools exposed through your own MCP server, driven by the model you serve in phase 10, with a LangGraph workflow for multi-step tasks."},
+ {t:"Evals and quality",g:"Proving your system works and catching regressions before users do.",
+  items:[
+   ["3rlYBCDK0K4","AI eval concepts explained in 15 minutes","Hamel Husain","14:24"],
+   ["MltkRz94SWA","The most important skill for AI engineers: evals explained","Aish Reganti","17:44"],
+   ["e2i6JbU2R-s","Error analysis: the highest-ROI technique in AI engineering","Hamel Husain","12:08"],
+   ["uiza7wp1KrE","AI evaluations clearly explained with a real example","Peter Yang","52:30",0,"Hamel Husain walks through real traces"],
+   ["GL0XhAj5LPE","LLM evals: common mistakes","Hamel Husain","28:16",1],
+   ["BsWxPI9UM4c","Why AI evals are the hottest new skill","Lenny's Podcast","1:46:33",1,"Hamel Husain and Shreya Shankar, long-form"],
+   ["Qj3u_kzfJVo","LLM-as-a-judge: evaluating LLMs with LLMs","Evidently AI","5:41"],
+   ["kP_aaFnXLmY","How to create an LLM judge and align it with human labels","Evidently AI","24:23",0,"Hands-on code"],
+   ["a3SMraZWNNs","How to systematically set up LLM evals","Dave Ebbelaar","55:02",0,"Metrics, unit tests, LLM-as-a-judge"],
+   ["tqUDjc1HzO4","How to automate AI evals (correctly)","Hamel Husain","27:19",1],
+   ["qI2qQfOG0Js","How to evaluate a RAG system: methods and metrics","Evidently AI","7:07"],
+   ["jckp5R09Afg","Tutorial: building and evaluating a RAG system","Evidently AI","16:12"],
+   ["gwAJi4d9QaE&t=8060s","RAGAS evaluation: context precision, recall, faithfulness (RAG workshop part 2, 2:14:20–2:35:24)",V,"21:04",0,"Opens at the right timestamp"],
+   ["7_LTU0LA374","RAG evaluation: precision, recall, faithfulness, RAGAS","Logical Lenses","12:19",2],
+   ["NebOSOTp-zA","LLM chatbot and RAG evaluation crash course","Krish Naik","1:06:12",2,"Uses LangChain and LangSmith"],
+   ["8fNP4N46RRo","Stanford CME295 · Lecture 8: LLM evaluation","Stanford Online","1:49:25",1]],
+  p:"Capstone: an eval suite (50+ test cases, LLM-as-judge plus exact checks) running in CI against your RAG + agent stack. This is your portfolio piece."}
+];
+
+const KEY="ai-roadmap-done-v1";
+let done={};
+try{done=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch(e){done={}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}};
+const secs=s=>s.split(":").map(Number).reduce((a,b)=>a*60+b,0);
+const fmtH=s=>{const h=s/3600;return (h>=10?Math.round(h):Math.round(h*10)/10)+"h"};
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const root=document.getElementById("phases");
+root.innerHTML=PHASES.map((ph,pi)=>{
+  // Alternatives (opt===2) nest under the main video listed just before them.
+  const groups=[];
+  ph.items.forEach(it=>{if(it[4]===2&&groups.length)groups[groups.length-1].alts.push(it);else groups.push({main:it,alts:[]})});
+  const row=([id,title,ch,dur,opt,note,part],alts=[])=>{
+    const href="https://www.youtube.com/watch?v="+id+(ph.list&&ch===V?"&list="+ph.list:"");
+    const altBlock=alts.length?`<details class="alts"><summary>${alts.length} alternative${alts.length>1?"s":""}</summary><ol>${alts.map(a=>row(a)).join("")}</ol></details>`:"";
+    return `<li class="${opt?"opt-row":""}" data-id="${id}" data-s="${secs(part||dur)}" data-opt="${opt?1:0}" data-alt="${opt===2?1:0}">
+      <input type="checkbox" id="c-${id}" aria-label="Mark watched: ${esc(title)}">
+      <div class="v"><a href="${href}" target="_blank" rel="noopener">${esc(title)}</a>
+        <div class="sub"><span class="tag ${ch===V?"viz":""}" style="${ch===V?"":"padding:0;text-transform:none;letter-spacing:0;font-weight:500;font-size:12.5px"}">${esc(ch)}</span>${opt===1?'<span class="tag opt">Optional</span>':""}${note?`<span>${esc(note)}</span>`:""}</div>${altBlock}</div>
+      <span class="dur">${part?part+" of "+dur:dur}</span></li>`};
+  const rows=groups.map(g=>row(g.main,g.alts)).join("");
+  return `<details class="phase" id="ph-${pi+1}" ${pi<2?"open":""}>
+    <summary><span class="num">${String(pi+1).padStart(2,"0")}</span>
+      <div class="ph-title"><h2>${esc(ph.t)}</h2><p>${esc(ph.g)}</p></div>
+      <span class="ph-meta" data-meta></span><div class="mini"><i data-mini></i></div></summary>
+    <div class="body"><ol class="vids">${rows}</ol>
+      <div class="project"><b>Build:</b> ${esc(ph.p)}</div></div></details>`}).join("");
+
+const coreBox=document.getElementById("core"), pace=document.getElementById("pace");
+try{coreBox.checked=localStorage.getItem(KEY+"-core")==="1";const p=localStorage.getItem(KEY+"-pace");if(p)pace.value=p}catch(e){}
+
+function update(){
+  const coreOnly=coreBox.checked;
+  root.dataset.core=coreOnly?"1":"0";
+  let tot=0,tn=0,dn=0,ds=0;
+  document.querySelectorAll("details.phase").forEach(d=>{
+    let pt=0,pd=0,pn=0,pdn=0;
+    d.querySelectorAll("li").forEach(li=>{
+      const opt=li.dataset.opt==="1", s=+li.dataset.s, isDone=!!done[li.dataset.id];
+      li.dataset.hidden=(coreOnly&&opt)?"1":"0";
+      li.classList.toggle("is-done",isDone);
+      li.querySelector("input").checked=isDone;
+      if(li.dataset.alt==="1")return; // alternatives replace a video, so they never add to totals
+      if(coreOnly&&opt)return;
+      pt+=s;pn++; if(isDone){pd+=s;pdn++}
+    });
+    d.querySelector("[data-meta]").textContent=`${pdn}/${pn} · ${fmtH(pt)}`;
+    d.querySelector("[data-mini]").style.width=(pt?pd/pt*100:0)+"%";
+    d.classList.toggle("complete",pn>0&&pdn===pn);
+    tot+=pt;ds+=pd;tn+=pn;dn+=pdn;
+  });
+  document.getElementById("s-done").textContent=dn;
+  document.getElementById("s-total").textContent=tn;
+  document.getElementById("s-hdone").textContent=fmtH(ds);
+  document.getElementById("s-htotal").textContent=fmtH(tot);
+  const weeks=((tot-ds)*1.5/3600)/(+pace.value*7);
+  document.getElementById("s-weeks").textContent=Math.ceil(weeks);
+  document.getElementById("fill").style.width=(tot?ds/tot*100:0)+"%";
+}
+root.addEventListener("change",e=>{
+  const li=e.target.closest("li"); if(!li)return;
+  if(e.target.checked)done[li.dataset.id]=1; else delete done[li.dataset.id];
+  save();update();
+});
+coreBox.addEventListener("change",()=>{try{localStorage.setItem(KEY+"-core",coreBox.checked?"1":"0")}catch(e){}update()});
+pace.addEventListener("change",()=>{try{localStorage.setItem(KEY+"-pace",pace.value)}catch(e){}update()});
+update();
+</script>
+</body>
+</html>
